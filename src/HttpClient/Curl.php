@@ -121,7 +121,7 @@ class Curl implements HttpClientInterface
                 unset($this->curlOptions[CURLOPT_POST]);
                 unset($this->curlOptions[CURLOPT_POSTFIELDS]);
 
-                $uri = $uri . (strpos($uri, '?') ? '&' : '?') . http_build_query($parameters);
+                $uri = $uri . (strpos($uri, '?') ? '&' : '?') . http_build_query($parameters, arg_separator: '&');
                 if ($method === 'DELETE') {
                     $this->curlOptions[CURLOPT_CUSTOMREQUEST] = 'DELETE';
                 }
@@ -129,7 +129,7 @@ class Curl implements HttpClientInterface
             case 'PUT':
             case 'POST':
             case 'PATCH':
-                $body_content = $multipart ? $parameters : http_build_query($parameters);
+                $body_content = $multipart ? $parameters : http_build_query($parameters, arg_separator: '&');
                 if (isset($this->requestHeader['Content-Type'])
                     && $this->requestHeader['Content-Type'] == 'application/json'
                 ) {
